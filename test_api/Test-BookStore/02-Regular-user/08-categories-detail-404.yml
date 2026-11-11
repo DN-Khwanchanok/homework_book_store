@@ -1,0 +1,22 @@
+info:
+  name: "failed_get_category"
+  type: http
+  seq: 8
+
+http:
+  method: GET
+  url: "{{base_url}}/api/categories/0"
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test("Unknown category returns 404", () => {
+          expect(res.getStatus()).to.equal(404);
+          expect(res.getBody().error).to.equal("Record not found");
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 10000
+  followRedirects: false

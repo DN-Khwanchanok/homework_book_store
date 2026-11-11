@@ -1,25 +1,25 @@
 info:
-  name: "failed_update_book"
+  name: "failed_create_market"
   type: http
-  seq: 13
+  seq: 21
 
 http:
-  method: PATCH
-  url: "{{base_url}}/admin/books/0"
+  method: POST
+  url: "{{base_url}}/admin/markets"
   headers:
     - name: X-CSRF-Token
       value: "{{csrf_token}}"
   body:
     type: form-urlencoded
     data:
-      - name: "book[price]"
-        value: "-1"
+      - name: "market[name]"
+        value: ""
 
 runtime:
   scripts:
     - type: tests
       code: |-
-        test("Regular user is denied: Update book", () => {
+        test("Regular user is denied: Create market", () => {
           expect(res.getStatus()).to.equal(403);
         });
 

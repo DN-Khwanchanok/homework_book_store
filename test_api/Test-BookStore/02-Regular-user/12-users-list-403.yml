@@ -1,7 +1,7 @@
 info:
   name: "failed_list_users"
   type: http
-  seq: 10
+  seq: 12
 
 http:
   method: GET

@@ -1,25 +1,25 @@
 info:
-  name: "failed_create_book"
+  name: "failed_create_category"
   type: http
-  seq: 12
+  seq: 18
 
 http:
   method: POST
-  url: "{{base_url}}/admin/books"
+  url: "{{base_url}}/admin/categories"
   headers:
     - name: X-CSRF-Token
       value: "{{csrf_token}}"
   body:
     type: form-urlencoded
     data:
-      - name: "book[title]"
+      - name: "category[name]"
         value: ""
 
 runtime:
   scripts:
     - type: tests
       code: |-
-        test("Book - regular user cannot create", () => {
+        test("Regular user is denied: Create category", () => {
           expect(res.getStatus()).to.equal(403);
         });
 

@@ -1,7 +1,7 @@
 info:
   name: "Sign out as a regular user"
   type: http
-  seq: 22
+  seq: 25
 
 http:
   method: DELETE

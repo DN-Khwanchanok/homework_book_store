@@ -1,25 +1,20 @@
 info:
-  name: "failed_create_market"
+  name: "failed_delete_market"
   type: http
-  seq: 18
+  seq: 23
 
 http:
-  method: POST
-  url: "{{base_url}}/admin/markets"
+  method: DELETE
+  url: "{{base_url}}/admin/markets/0"
   headers:
     - name: X-CSRF-Token
       value: "{{csrf_token}}"
-  body:
-    type: form-urlencoded
-    data:
-      - name: "market[name]"
-        value: ""
 
 runtime:
   scripts:
     - type: tests
       code: |-
-        test("Regular user is denied: Create market", () => {
+        test("Regular user is denied: Delete market", () => {
           expect(res.getStatus()).to.equal(403);
         });
 

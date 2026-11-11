@@ -1,20 +1,17 @@
 info:
-  name: "failed_delete_book"
+  name: "failed_open_admin"
   type: http
   seq: 14
 
 http:
-  method: DELETE
-  url: "{{base_url}}/admin/books/0"
-  headers:
-    - name: X-CSRF-Token
-      value: "{{csrf_token}}"
+  method: GET
+  url: "{{base_url}}/admin"
 
 runtime:
   scripts:
     - type: tests
       code: |-
-        test("Regular user is denied: Delete book", () => {
+        test("Regular user cannot open Admin", () => {
           expect(res.getStatus()).to.equal(403);
         });
 

@@ -1,25 +1,25 @@
 info:
-  name: "failed_create_user"
+  name: "failed_update_book"
   type: http
-  seq: 21
+  seq: 16
 
 http:
-  method: POST
-  url: "{{base_url}}/admin/users"
+  method: PATCH
+  url: "{{base_url}}/admin/books/0"
   headers:
     - name: X-CSRF-Token
       value: "{{csrf_token}}"
   body:
     type: form-urlencoded
     data:
-      - name: "user[email_address]"
-        value: "invalid-email"
+      - name: "book[price]"
+        value: "-1"
 
 runtime:
   scripts:
     - type: tests
       code: |-
-        test("Regular user is denied: Create user", () => {
+        test("Regular user is denied: Update book", () => {
           expect(res.getStatus()).to.equal(403);
         });
 

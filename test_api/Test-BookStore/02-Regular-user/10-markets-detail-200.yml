@@ -1,7 +1,7 @@
 info:
   name: "Get market details"
   type: http
-  seq: 9
+  seq: 10
 
 http:
   method: GET

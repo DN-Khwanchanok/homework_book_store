@@ -1,20 +1,25 @@
 info:
-  name: "failed_delete_category"
+  name: "failed_update_category"
   type: http
-  seq: 17
+  seq: 19
 
 http:
-  method: DELETE
+  method: PATCH
   url: "{{base_url}}/admin/categories/0"
   headers:
     - name: X-CSRF-Token
       value: "{{csrf_token}}"
+  body:
+    type: form-urlencoded
+    data:
+      - name: "category[name]"
+        value: ""
 
 runtime:
   scripts:
     - type: tests
       code: |-
-        test("Regular user is denied: Delete category", () => {
+        test("Regular user is denied: Update category", () => {
           expect(res.getStatus()).to.equal(403);
         });
 

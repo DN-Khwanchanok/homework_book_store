@@ -1,25 +1,25 @@
 info:
-  name: "failed_update_category"
+  name: "failed_create_book"
   type: http
-  seq: 16
+  seq: 15
 
 http:
-  method: PATCH
-  url: "{{base_url}}/admin/categories/0"
+  method: POST
+  url: "{{base_url}}/admin/books"
   headers:
     - name: X-CSRF-Token
       value: "{{csrf_token}}"
   body:
     type: form-urlencoded
     data:
-      - name: "category[name]"
+      - name: "book[title]"
         value: ""
 
 runtime:
   scripts:
     - type: tests
       code: |-
-        test("Regular user is denied: Update category", () => {
+        test("Book - regular user cannot create", () => {
           expect(res.getStatus()).to.equal(403);
         });
 
