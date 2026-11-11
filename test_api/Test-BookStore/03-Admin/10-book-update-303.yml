@@ -1,0 +1,45 @@
+info:
+  name: Update book
+  type: http
+  seq: 10
+
+http:
+  method: PATCH
+  url: "{{base_url}}/admin/books/{{admin_test_book_id}}"
+  headers:
+    - name: X-CSRF-Token
+      value: "{{csrf_token}}"
+  body:
+    type: form-urlencoded
+    data:
+      - name: book[price]
+        value: "150"
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test("Book - update price", () => {
+          expect(res.getStatus()).to.equal(303);
+        });
+
+        test("The book changes are saved", async () => {
+          expect(res.getStatus()).to.equal(303);
+          const session = bru.cookies.get("session_id");
+          expect(session, "Sign in as an admin first").to.be.a("string").and.not.be.empty;
+          const lookup = await bru.sendRequest({
+            url: bru.interpolate("{{base_url}}/api/books/{{admin_test_book_id}}"),
+            headers: { Cookie: "session_id=" + session },
+            maxRedirects: 0,
+            timeout: 10000
+          });
+          expect(lookup.status).to.equal(200);
+          expect(Number(lookup.data.price)).to.equal(150);
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 10000
+  followRedirects: false
+  maxRedirects: 5
+  forwardAuthorizationHeader: true

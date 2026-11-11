@@ -1,0 +1,43 @@
+info:
+  name: "Update category"
+  type: http
+  seq: 5
+
+http:
+  method: PATCH
+  url: "{{base_url}}/admin/categories/{{admin_test_category_id}}"
+  headers:
+    - name: X-CSRF-Token
+      value: "{{csrf_token}}"
+  body:
+    type: form-urlencoded
+    data:
+      - name: "category[name]"
+        value: "{{admin_test_category_name}} (แก้ไข)"
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test("Category - update", () => {
+          expect(res.getStatus()).to.equal(303);
+        });
+
+        test("The category changes are saved", async () => {
+          expect(res.getStatus()).to.equal(303);
+          const session = bru.cookies.get("session_id");
+          expect(session, "Sign in as an admin first").to.be.a("string").and.not.be.empty;
+          const lookup = await bru.sendRequest({
+            url: bru.interpolate("{{base_url}}/api/categories/{{admin_test_category_id}}"),
+            headers: { Cookie: "session_id=" + session },
+            maxRedirects: 0,
+            timeout: 10000
+          });
+          expect(lookup.status).to.equal(200);
+          expect(lookup.data.name).to.equal(bru.getVar("admin_test_category_name") + " (แก้ไข)");
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 10000
+  followRedirects: false

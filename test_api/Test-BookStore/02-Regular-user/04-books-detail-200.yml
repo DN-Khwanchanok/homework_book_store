@@ -1,0 +1,24 @@
+info:
+  name: "Get book details"
+  type: http
+  seq: 4
+
+http:
+  method: GET
+  url: "{{base_url}}/api/books/{{books_id}}"
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test("Returns the selected record", () => {
+          expect(res.getStatus()).to.equal(200);
+          const body = res.getBody();
+          expect(String(body.id)).to.equal(bru.getVar("books_id"));
+          expect(Object.keys(body).sort()).to.deep.equal(["author","category","description","id","markets","price","title"]);
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 10000
+  followRedirects: false

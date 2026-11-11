@@ -1,0 +1,30 @@
+<% content_for :title, "สร้างผู้ใช้ | Book Store" %>
+
+<%= render "admin/navigation" %>
+
+<main class="books-page admin-page">
+  <h1>สร้างผู้ใช้</h1>
+
+  <%= form_with model: [:admin, @user], class: "admin-book-form" do |form| %>
+    <% if @user.errors.any? %>
+      <ul class="admin-errors" role="alert">
+        <% @user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    <% end %>
+
+    <div class="admin-field">
+      <%= form.label :email_address, "อีเมล" %>
+      <%= form.email_field :email_address, required: true, autocomplete: "off" %>
+    </div>
+
+    <%= render "password_field", form: form, field: :password, label: "รหัสผ่าน" %>
+    <%= render "password_field", form: form, field: :password_confirmation, label: "ยืนยันรหัสผ่าน" %>
+
+    <div class="admin-book-actions">
+      <%= form.submit "สร้างผู้ใช้", class: "admin-button admin-button-primary" %>
+      <%= link_to "ยกเลิก", admin_path, class: "admin-button" %>
+    </div>
+  <% end %>
+</main>

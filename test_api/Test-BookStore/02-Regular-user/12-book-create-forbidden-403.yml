@@ -1,0 +1,29 @@
+info:
+  name: "failed_create_book"
+  type: http
+  seq: 12
+
+http:
+  method: POST
+  url: "{{base_url}}/admin/books"
+  headers:
+    - name: X-CSRF-Token
+      value: "{{csrf_token}}"
+  body:
+    type: form-urlencoded
+    data:
+      - name: "book[title]"
+        value: ""
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test("Book - regular user cannot create", () => {
+          expect(res.getStatus()).to.equal(403);
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 10000
+  followRedirects: false

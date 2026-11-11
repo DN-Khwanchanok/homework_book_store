@@ -1,0 +1,19 @@
+<%= form_with model: [:admin, market], class: "admin-book-form" do |form| %>
+  <% if market.errors.any? %>
+    <ul class="admin-errors" role="alert">
+      <% market.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <div class="admin-field">
+    <%= form.label :name, "ชื่อ Market" %>
+    <%= form.text_field :name, required: true %>
+  </div>
+
+  <div class="admin-book-actions">
+    <%= form.submit "บันทึก", class: "admin-button admin-button-primary" %>
+    <%= link_to "ยกเลิก", admin_markets_path, class: "admin-button" %>
+  </div>
+<% end %>

@@ -1,0 +1,29 @@
+info:
+  name: "failed_update_market"
+  type: http
+  seq: 19
+
+http:
+  method: PATCH
+  url: "{{base_url}}/admin/markets/0"
+  headers:
+    - name: X-CSRF-Token
+      value: "{{csrf_token}}"
+  body:
+    type: form-urlencoded
+    data:
+      - name: "market[name]"
+        value: ""
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test("Regular user is denied: Update market", () => {
+          expect(res.getStatus()).to.equal(403);
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 10000
+  followRedirects: false

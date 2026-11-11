@@ -1,0 +1,38 @@
+<% content_for :title, "จัดการหมวดหมู่ | Book Store" %>
+
+<%= render "admin/navigation" %>
+
+<main class="books-page admin-page">
+  <header class="admin-header">
+    <h1>จัดการหมวดหมู่</h1>
+    <%= link_to "เพิ่มหมวดหมู่", new_admin_category_path, class: "admin-button admin-button-primary" %>
+  </header>
+
+  <% if notice.present? %>
+    <p class="admin-notice" role="status"><%= notice %></p>
+  <% end %>
+
+  <% if alert.present? %>
+    <p class="admin-errors" role="alert"><%= alert %></p>
+  <% end %>
+
+  <% if @categories.empty? %>
+    <p>ยังไม่มีหมวดหมู่</p>
+  <% else %>
+    <ul class="admin-book-list">
+      <% @categories.each do |category| %>
+        <li class="admin-book-row">
+          <h2><%= category.name %></h2>
+          <div class="admin-book-actions">
+            <%= link_to "แก้ไข", edit_admin_category_path(category), class: "admin-button",
+                aria: { label: "แก้ไข #{category.name}" } %>
+            <%= button_to "ลบ", admin_category_path(category), method: :delete,
+                class: "admin-button admin-button-delete",
+                aria: { label: "ลบ #{category.name}" },
+                form: { data: { turbo_confirm: "ลบหมวด #{category.name} หรือไม่?" } } %>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+</main>

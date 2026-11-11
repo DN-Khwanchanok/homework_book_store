@@ -1,0 +1,308 @@
+/*
+ * This is a manifest file that'll be compiled into application.css.
+ *
+ * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
+ * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
+ * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
+ * depending on specificity.
+ *
+ * Consider organizing styles into separate files for maintainability.
+ */
+
+html { scrollbar-gutter: stable both-edges; }
+
+/* Sign-in page */
+.login-page {
+  max-width: 320px;
+  padding: 0 24px;
+  margin: 40px auto;
+  font-family: Arial, sans-serif;
+  color: #222;
+}
+.login-field { margin-bottom: 16px; }
+.login-field label { display: block; margin-bottom: 6px; }
+.login-field input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #888;
+  font: inherit;
+}
+.login-button {
+  padding: 8px 20px;
+  border: 1px solid #6b4226;
+  background: #6b4226;
+  color: white;
+  font: inherit;
+  cursor: pointer;
+}
+.login-button:hover { background: #4a2d1a; }
+.login-page a { color: #164aa0; }
+.login-error { color: #b91c1c; }
+.login-notice { color: #166534; }
+
+
+/* Books page */
+body:has(.books-page) { background: #fff; }
+.books-page {
+  max-width: 760px;
+  margin: 40px auto;
+  padding: 0 24px;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  color: #29231e;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.books-page h1 { margin: 24px 0 4px; font-size: 28px; }
+.books-count { margin: 0 0 20px; color: #655b52; }
+.book-item { padding: 20px 0; border-top: 1px solid #d9cfc4; }
+.book-item h2 { margin: 0 0 10px; font-size: 20px; }
+.book-item p { margin: 6px 0; }
+.book-price { color: #6b4226; }
+.books-account { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid #d9cfc4; }
+.books-account p { margin: 0; font-size: 14px; }
+.books-account form { margin: 0; }
+.books-account-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+
+/* Category filter buttons */
+.category-filters { display: flex; flex-wrap: wrap; gap: 8px; }
+.category-button { padding: 6px 12px; border: 1px solid #9b7352; background: transparent; color: #6b4226; text-decoration: none; font-size: 14px; }
+.category-button:hover { background: #eee5d8; }
+.category-button.active { background: #6b4226; color: white; }
+.category-button:focus-visible { outline: 2px solid #6b4226; outline-offset: 3px; }
+
+
+.book-item h2 a, .book-back { color: #6b4226; }
+
+/* Admin pages */
+.admin-back { color: #6b4226; font-size: 14px; text-underline-offset: 3px; }
+.admin-page h1 { margin: 16px 0; }
+.admin-header, .admin-book-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+}
+.admin-header { margin: 16px 0; }
+.admin-header h1 { margin: 0; }
+.admin-book-list { padding: 0; margin: 0; list-style: none; }
+.admin-book-row { padding: 16px 0; border-top: 1px solid #ddd6cf; }
+.admin-book-row h2 { margin: 0; font-size: 18px; }
+.admin-book-meta { margin: 4px 0 0; color: #61554c; font-size: 14px; }
+.admin-book-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.admin-book-actions form { margin: 0; }
+.admin-button {
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 7px 14px;
+  border: 1px solid #c6b8ac;
+  border-radius: 4px;
+  background: #fff;
+  color: #54351f;
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+.admin-button:hover { background: #f6f1ec; }
+.admin-button-primary { border-color: #6b4226; background: #6b4226; color: #fff; }
+.admin-button-primary:hover { border-color: #4a2d1a; background: #4a2d1a; }
+.admin-button-delete { border-color: #d4aaaa; color: #992d2d; }
+.admin-button-delete:hover { background: #fff1f1; }
+.admin-button:focus-visible, .admin-field :is(input, select, textarea):focus-visible {
+  outline: 2px solid #6b4226;
+  outline-offset: 2px;
+}
+.admin-field { margin-bottom: 16px; min-width: 0; }
+.admin-field label { display: block; margin-bottom: 4px; font-weight: bold; font-size: 14px; }
+.admin-field :is(input, select, textarea) {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 10px;
+  border: 1px solid #a99d92;
+  border-radius: 4px;
+  background: #fff;
+  color: inherit;
+  font: inherit;
+}
+.admin-field textarea { display: block; resize: vertical; }
+.admin-field-row { display: grid; grid-template-columns: 2fr 1fr; gap: 12px; }
+.admin-notice { padding: 8px 12px; background: #f1f7f0; color: #28532c; }
+.admin-errors { padding: 8px 12px 8px 32px; background: #fff1f1; color: #992d2d; }
+
+@media (max-width: 480px) {
+  .admin-page { margin: 24px auto; padding-inline: 16px; }
+  .admin-field-row { grid-template-columns: 1fr; gap: 0; }
+}
+
+/* Book search */
+.book-filters { display: grid; gap: 12px; margin: 18px 0 16px; }
+.book-search, .book-category-row {
+  display: grid;
+  grid-template-columns: 136px minmax(0, 1fr);
+  align-items: start;
+  gap: 8px 14px;
+  margin: 0;
+}
+.book-search label, .category-heading {
+  margin: 0;
+  padding-top: 7px;
+  font-size: 16px;
+  font-weight: bold;
+}
+.book-filters .category-button {
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  min-height: 40px;
+}
+
+@media (max-width: 640px) {
+  .book-search, .book-category-row { grid-template-columns: minmax(0, 1fr); }
+  .book-search label, .category-heading { padding-top: 0; }
+}
+.book-search-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; }
+.book-search-row input { box-sizing: border-box; height: 40px; }
+.book-search-row input[type="search"] {
+  width: 100%;
+  min-width: 0;
+  padding: 0 10px;
+  border: 1px solid #a99d92;
+  border-radius: 4px;
+  color: inherit;
+  font: inherit;
+  font-size: 14px;
+}
+.book-search-row input[type="search"]:focus-visible { outline: 2px solid #6b4226; outline-offset: 2px; }
+
+/* Book details */
+.book-detail { max-width: 580px; }
+.book-detail .book-back { font-size: 14px; text-underline-offset: 3px; }
+.book-detail h1 { margin: 20px 0 16px; line-height: 1.3; }
+.book-detail-info {
+  display: grid;
+  grid-template-columns: minmax(76px, 96px) minmax(0, 1fr);
+  gap: 8px 12px;
+  margin: 0;
+}
+.book-detail-info dt { color: #61554c; }
+.book-detail-info dd { margin: 0; }
+.book-detail-info .book-price { font-weight: bold; }
+.book-detail-description { margin-top: 24px; padding-top: 16px; border-top: 1px solid #d9cfc4; }
+.book-detail-description h2 { margin: 0 0 8px; font-size: 18px; }
+.book-detail-description p { margin: 0; white-space: pre-line; }
+
+/* Admin navigation */
+.admin-navigation { margin-bottom: 20px; }
+.admin-navigation .admin-back { display: inline-block; margin-bottom: 8px; }
+.admin-nav { display: flex; flex-wrap: wrap; gap: 4px 16px; }
+.admin-navigation + .admin-page { margin-top: 0; }
+.admin-nav-link {
+  padding: 6px 2px;
+  border-bottom: 2px solid transparent;
+  color: #61554c;
+  text-decoration: none;
+}
+.admin-nav-link:hover { color: #6b4226; border-bottom-color: #d9cfc4; }
+.admin-nav-link[aria-current="location"] { color: #6b4226; border-bottom-color: #6b4226; font-weight: bold; }
+.admin-nav-link:focus-visible { outline: 2px solid #6b4226; outline-offset: 2px; }
+
+@media (max-width: 480px) {
+  .admin-navigation { margin-top: 24px; padding-inline: 16px; }
+}
+
+/* Market choices on the book form */
+.admin-market-field { min-width: 0; margin: 0 0 16px; padding: 0; border: 0; }
+.admin-market-field legend { padding: 0; margin-bottom: 6px; font-size: 14px; font-weight: bold; }
+.admin-market-field p { margin: 0; color: #61554c; }
+.admin-market-options { display: flex; flex-wrap: wrap; gap: 8px 16px; }
+.admin-market-options label { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+.admin-market-options input { margin: 0; accent-color: #6b4226; }
+
+/* Password visibility */
+.password-control { position: relative; }
+.password-control input { padding-inline-end: 44px; }
+.password-control input::-ms-reveal { display: none; }
+.password-toggle {
+  position: absolute;
+  inset-block: 4px;
+  inset-inline-end: 4px;
+  width: 36px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: #6b4226;
+  cursor: pointer;
+}
+.password-toggle[hidden] { display: none; }
+.password-toggle:hover { background: #f6f1ec; }
+.password-toggle:focus-visible { outline: 2px solid #6b4226; }
+.password-eye {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 13px;
+  height: 13px;
+  border: 1.5px solid currentColor;
+  border-radius: 70% 15%;
+  transform: rotate(45deg);
+}
+.password-eye::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.password-toggle[aria-pressed="true"] .password-eye::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 2px;
+  background: currentColor;
+}
+
+/* Category dropdown */
+.category-dropdown { position: relative; max-width: 100%; }
+.category-dropdown summary { gap: 8px; max-width: 100%; list-style: none; cursor: pointer; }
+.category-dropdown summary::-webkit-details-marker { display: none; }
+.category-toggle-text { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.category-arrow { flex-shrink: 0; }
+.category-dropdown[open] .category-arrow { transform: rotate(180deg); }
+
+.category-menu {
+  position: absolute;
+  z-index: 2;
+  inset-block-start: 100%;
+  inset-inline-start: 0;
+  box-sizing: border-box;
+  width: max-content;
+  min-width: min(100%, 140px);
+  max-width: min(240px, calc(100vw - 136px));
+  max-height: 240px;
+  overflow-y: auto;
+  margin: 4px 0 0;
+  padding: 4px;
+  border: 1px solid #d9cfc4;
+  border-radius: 4px;
+  background: #fff;
+  list-style: none;
+}
+.category-option {
+  display: block;
+  padding: 7px 10px;
+  border-radius: 3px;
+  color: #6b4226;
+  font-size: 14px;
+  text-decoration: none;
+}
+.category-option:hover, .category-option[aria-current="page"] { background: #eee5d8; }
+.category-option[aria-current="page"] { font-weight: bold; }
+.category-option:focus-visible { outline: 2px solid #6b4226; outline-offset: -2px; }

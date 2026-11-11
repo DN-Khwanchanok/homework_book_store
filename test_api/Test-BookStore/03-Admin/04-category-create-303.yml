@@ -1,0 +1,48 @@
+info:
+  name: "Create category"
+  type: http
+  seq: 4
+
+http:
+  method: POST
+  url: "{{base_url}}/admin/categories"
+  headers:
+    - name: X-CSRF-Token
+      value: "{{csrf_token}}"
+  body:
+    type: form-urlencoded
+    data:
+      - name: "category[name]"
+        value: "{{admin_test_category_name}}"
+
+runtime:
+  scripts:
+    - type: before-request
+      code: |-
+        bru.setVar("admin_test_category_name", "วิทยาศาสตร์และอวกาศ [Test " + require("uuid").v4().slice(0, 8) + "]");
+    - type: tests
+      code: |-
+        test("Category - create", () => {
+          expect(res.getStatus()).to.equal(303);
+        });
+
+        test("The category is saved", async () => {
+          expect(res.getStatus()).to.equal(303);
+          const session = bru.cookies.get("session_id");
+          expect(session, "Sign in as an admin first").to.be.a("string").and.not.be.empty;
+          const lookup = await bru.sendRequest({
+            url: bru.interpolate("{{base_url}}/api/categories"),
+            headers: { Cookie: "session_id=" + session },
+            maxRedirects: 0,
+            timeout: 10000
+          });
+          expect(lookup.status).to.equal(200);
+          const record = lookup.data.find((entry) => entry.name === bru.getVar("admin_test_category_name"));
+          expect(record, "Find the category created by this run").to.exist;
+          bru.setVar("admin_test_category_id", String(record.id));
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 10000
+  followRedirects: false

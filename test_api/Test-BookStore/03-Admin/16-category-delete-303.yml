@@ -1,0 +1,40 @@
+info:
+  name: Delete category
+  type: http
+  seq: 16
+
+http:
+  method: DELETE
+  url: "{{base_url}}/admin/categories/{{admin_test_category_id}}"
+  headers:
+    - name: X-CSRF-Token
+      value: "{{csrf_token}}"
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test("Category - delete test record", () => {
+          expect(res.getStatus()).to.equal(303);
+        });
+
+        test("The category was deleted", async () => {
+          expect(res.getStatus()).to.equal(303);
+          const session = bru.cookies.get("session_id");
+          expect(session, "Sign in as an admin first").to.be.a("string").and.not.be.empty;
+          const lookup = await bru.sendRequest({
+            url: bru.interpolate("{{base_url}}/api/categories"),
+            headers: { Cookie: "session_id=" + session },
+            maxRedirects: 0,
+            timeout: 10000
+          });
+          expect(lookup.status).to.equal(200);
+          expect(lookup.data.some((entry) => String(entry.id) === bru.getVar("admin_test_category_id"))).to.equal(false);
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 10000
+  followRedirects: false
+  maxRedirects: 5
+  forwardAuthorizationHeader: true

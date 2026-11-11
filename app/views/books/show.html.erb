@@ -1,0 +1,29 @@
+<% content_for :title, @book.title %>
+
+<main class="books-page book-detail">
+  <%= link_to "← Back to books",
+      books_path(category_id: params[:category_id], q: params[:q]), class: "book-back" %>
+
+  <h1><%= @book.title %></h1>
+
+  <dl class="book-detail-info">
+    <dt>Author:</dt>
+    <dd><%= @book.author %></dd>
+
+    <dt>Category:</dt>
+    <dd><%= @book.category&.name || "Uncategorized" %></dd>
+
+    <dt>Price:</dt>
+    <dd class="book-price"><%= number_to_currency(@book.price, unit: "บาท", format: "%n %u", precision: 2) %></dd>
+
+    <dt>Markets:</dt>
+    <dd><%= @market_names.join(", ").presence || "Not assigned" %></dd>
+  </dl>
+
+  <% if @book.description.present? %>
+    <section class="book-detail-description" aria-labelledby="book-description">
+      <h2 id="book-description">Description</h2>
+      <p><%= @book.description %></p>
+    </section>
+  <% end %>
+</main>

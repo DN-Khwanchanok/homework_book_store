@@ -1,0 +1,22 @@
+info:
+  name: "failed_list_books"
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{base_url}}/api/books"
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test("Unauthenticated list request is denied", () => {
+          expect(res.getStatus()).to.equal(401);
+          expect(res.getBody().error).to.equal("Sign in required");
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 10000
+  followRedirects: false

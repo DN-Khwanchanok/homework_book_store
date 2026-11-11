@@ -1,0 +1,45 @@
+info:
+  name: "Update market"
+  type: http
+  seq: 7
+
+http:
+  method: PATCH
+  url: "{{base_url}}/admin/markets/{{admin_test_market_id}}"
+  headers:
+    - name: X-CSRF-Token
+      value: "{{csrf_token}}"
+  body:
+    type: form-urlencoded
+    data:
+      - name: market[name]
+        value: "{{admin_test_market_name}} (แก้ไข)"
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test("Market - update", () => {
+          expect(res.getStatus()).to.equal(303);
+        });
+
+        test("The market changes are saved", async () => {
+          expect(res.getStatus()).to.equal(303);
+          const session = bru.cookies.get("session_id");
+          expect(session, "Sign in as an admin first").to.be.a("string").and.not.be.empty;
+          const lookup = await bru.sendRequest({
+            url: bru.interpolate("{{base_url}}/api/markets/{{admin_test_market_id}}"),
+            headers: { Cookie: "session_id=" + session },
+            maxRedirects: 0,
+            timeout: 10000
+          });
+          expect(lookup.status).to.equal(200);
+          expect(lookup.data.name).to.equal(bru.getVar("admin_test_market_name") + " (แก้ไข)");
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 10000
+  followRedirects: false
+  maxRedirects: 5
+  forwardAuthorizationHeader: true

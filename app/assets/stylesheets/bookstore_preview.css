@@ -1,0 +1,76 @@
+/* Bookstore preview. Remove this stylesheet to restore the original theme. */
+:root {
+  --shop-blue: #2c4967;
+  --shop-blue-dark: #21384f;
+  --shop-blue-light: #edf2f7;
+  --shop-ink: #252b33;
+  --shop-muted: #57616d;
+  --shop-line: #dbe0e6;
+  --shop-border: #8793a0;
+}
+
+body:has(.books-page), body:has(.login-page) {
+  background: #fff;
+}
+
+body .books-page, body .login-page { color: var(--shop-ink); }
+
+body :is(.books-account, .book-item, .admin-book-row, .book-detail-description) {
+  border-color: var(--shop-line);
+}
+
+body :is(.books-count, .books-account p, .admin-book-meta, .book-detail-info dt, .admin-nav-link) {
+  color: var(--shop-muted);
+}
+
+body :is(.book-item h2 a, .book-price, .book-back, .admin-back, .login-page a, .password-toggle) {
+  color: var(--shop-blue);
+}
+
+body :is(.admin-button, .login-button, .category-button) {
+  border-color: var(--shop-border);
+  border-radius: 4px;
+  background: #fff;
+  color: var(--shop-blue);
+}
+
+body :is(.admin-button, .login-button, .category-button, .password-toggle):hover {
+  background: var(--shop-blue-light);
+}
+
+body :is(.admin-button-primary, .login-button, .category-button.active) {
+  border-color: var(--shop-blue);
+  background: var(--shop-blue);
+  color: #fff;
+}
+
+body :is(.admin-button-primary, .login-button, .category-button.active):hover {
+  border-color: var(--shop-blue-dark);
+  background: var(--shop-blue-dark);
+}
+
+body .admin-button-delete { border-color: #cba9a0; color: #902f29; }
+body .admin-button-delete:hover { background: #fff1f1; }
+
+body .admin-nav-link:hover { color: var(--shop-blue); border-bottom-color: var(--shop-line); }
+body .admin-nav-link[aria-current="location"] { color: var(--shop-blue); border-bottom-color: var(--shop-blue); }
+body .admin-market-options input { accent-color: var(--shop-blue); }
+
+body .book-search-row input[type="search"],
+body .admin-field :is(input, select, textarea),
+body .login-field input {
+  border-color: var(--shop-border);
+  border-radius: 4px;
+}
+
+body :is(.admin-button, .login-button, .category-button, .admin-nav-link, .book-back, .admin-back, .password-toggle):focus-visible,
+body :is(.book-search-row, .admin-field, .login-field) :is(input, select, textarea):focus-visible,
+body .book-item a:focus-visible {
+  outline: 2px solid var(--shop-blue);
+  outline-offset: 2px;
+}
+
+body .category-menu { border-color: var(--shop-line); }
+body .category-option { color: var(--shop-blue); }
+body .category-option:hover, body .category-option[aria-current="page"] { background: var(--shop-blue-light); }
+body .category-option:focus-visible { outline-color: var(--shop-blue); }

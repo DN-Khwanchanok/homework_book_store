@@ -1,0 +1,75 @@
+<% content_for :title, "Books | Book Store" %>
+
+<main class="books-page">
+  <div class="books-account">
+    <p>Signed in as <%= Current.user.email_address %></p>
+    <div class="books-account-actions">
+      <% if Current.user.admin? %>
+        <%= link_to "หน้าผู้ดูแล", admin_path, class: "admin-button" %>
+      <% end %>
+      <%= button_to "Sign out", session_path, method: :delete, class: "admin-button admin-button-primary" %>
+    </div>
+  </div>
+
+  <h1>Book Store</h1>
+
+  <div class="book-filters">
+    <%= form_with url: books_path, method: :get, class: "book-search" do |form| %>
+      <%= form.label :q, "ค้นหาหนังสือ" %>
+      <div class="book-search-row">
+        <%= form.search_field :q, value: @query, placeholder: "พิมพ์ชื่อหนังสือ" %>
+        <%= form.submit "ค้นหา", class: "admin-button admin-button-primary" %>
+      </div>
+
+      <% if @selected_category %>
+        <%= form.hidden_field :category_id, value: @selected_category.id %>
+      <% end %>
+    <% end %>
+
+    <div class="book-category-row">
+      <h2 id="book-categories" class="category-heading">หมวดหมู่หนังสือ</h2>
+      <nav class="category-filters" aria-labelledby="book-categories">
+        <%= link_to "ทั้งหมด", books_path(q: @query.presence),
+            class: "category-button #{'active' unless @selected_category}",
+            aria: { current: (@selected_category.nil? ? "page" : nil) } %>
+
+        <% if @categories.any? %>
+          <details class="category-dropdown">
+            <summary class="category-button <%= 'active' if @selected_category %>">
+              <span class="category-toggle-text"><%= @selected_category&.name || "หมวดหมู่" %></span>
+              <span class="category-arrow" aria-hidden="true">▾</span>
+            </summary>
+
+            <ul class="category-menu">
+              <% @categories.each do |category| %>
+                <li>
+                  <%= link_to category.name,
+                      books_path(category_id: category.id, q: @query.presence),
+                      class: "category-option",
+                      aria: { current: ("page" if @selected_category == category) } %>
+                </li>
+              <% end %>
+            </ul>
+          </details>
+        <% end %>
+      </nav>
+    </div>
+  </div>
+
+  <p class="books-count"><%= pluralize(@books.count, "book") %> found.</p>
+
+  <% if @books.empty? %>
+    <p>No books found.</p>
+  <% else %>
+    <% @books.each do |book| %>
+      <article class="book-item">
+        <h2><%= link_to book.title, book_path(book, category_id: @selected_category&.id, q: @query.presence) %></h2>
+        <p>Author: <%= book.author %></p>
+        <p>Category: <%= book.category&.name || "ยังไม่ระบุหมวดหมู่" %></p>
+        <p class="book-price">
+          Price: <%= number_to_currency(book.price, unit: "บาท", format: "%n %u", precision: 2) %>
+        </p>
+      </article>
+    <% end %>
+  <% end %>
+</main>

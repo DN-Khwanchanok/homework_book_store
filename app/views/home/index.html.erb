@@ -1,0 +1,8 @@
+<% content_for :title, "Book Store" %>
+
+<div class="login-page">
+  <h1>Book Store</h1>
+  <p><%= link_to "View all books", books_path %></p>
+  <p>Signed in as <%= Current.user.email_address %></p>
+  <%= button_to "Sign out", session_path, method: :delete, class: "login-button" %>
+</div>

@@ -1,0 +1,38 @@
+<% content_for :title, "จัดการหนังสือ | Book Store" %>
+
+<%= render "admin/navigation" %>
+
+<main class="books-page admin-page">
+  <header class="admin-header">
+    <h1>จัดการหนังสือ</h1>
+    <%= link_to "เพิ่มหนังสือ", new_admin_book_path, class: "admin-button admin-button-primary" %>
+  </header>
+
+  <% if notice.present? %>
+    <p class="admin-notice" role="status"><%= notice %></p>
+  <% end %>
+
+  <% if @books.empty? %>
+    <p>ยังไม่มีหนังสือ</p>
+  <% else %>
+    <ul class="admin-book-list">
+      <% @books.each do |book| %>
+        <li class="admin-book-row">
+          <div>
+            <h2><%= book.title %></h2>
+            <p class="admin-book-meta">
+              <%= book.author %> · <%= number_to_currency(book.price, unit: "บาท", format: "%n %u", precision: 2) %>
+            </p>
+          </div>
+          <div class="admin-book-actions">
+            <%= link_to "แก้ไข", edit_admin_book_path(book), class: "admin-button", aria: { label: "แก้ไข #{book.title}" } %>
+            <%= button_to "ลบ", admin_book_path(book), method: :delete,
+                class: "admin-button admin-button-delete",
+                aria: { label: "ลบ #{book.title}" },
+                form: { data: { turbo_confirm: "ลบหนังสือ #{book.title} หรือไม่?" } } %>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+</main>

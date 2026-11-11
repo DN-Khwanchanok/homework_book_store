@@ -1,0 +1,25 @@
+info:
+  name: "Sign out as a regular user"
+  type: http
+  seq: 22
+
+http:
+  method: DELETE
+  url: "{{base_url}}/session"
+  headers:
+    - name: X-CSRF-Token
+      value: "{{csrf_token}}"
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test("The session ends and redirects to sign in", () => {
+          expect(res.getStatus()).to.equal(303);
+          expect(res.getHeader("location")).to.match(/\/session\/new$/);
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 10000
+  followRedirects: false

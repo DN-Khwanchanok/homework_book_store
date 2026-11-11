@@ -1,0 +1,29 @@
+info:
+  name: "List users"
+  type: http
+  seq: 12
+
+http:
+  method: GET
+  url: "{{base_url}}/api/users"
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        if (res.getStatus() === 200 && Array.isArray(res.getBody()) && res.getBody().length) {
+          bru.setVar("users_id", String(res.getBody()[0].id));
+        }
+    - type: tests
+      code: |-
+        test("Returns a list of records", () => {
+          expect(res.getStatus()).to.equal(200);
+          const body = res.getBody();
+          expect(body).to.be.an("array").and.not.be.empty;
+          body.forEach((record) => expect(Object.keys(record).sort()).to.deep.equal(["email_address","id"]));
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 10000
+  followRedirects: false

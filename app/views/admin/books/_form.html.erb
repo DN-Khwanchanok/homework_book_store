@@ -1,0 +1,56 @@
+<%= form_with model: [:admin, book], class: "admin-book-form" do |form| %>
+  <% if book.errors.any? %>
+    <ul class="admin-errors" role="alert">
+      <% book.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <div class="admin-field">
+    <%= form.label :title, "ชื่อหนังสือ" %>
+    <%= form.text_field :title, required: true %>
+  </div>
+
+  <div class="admin-field">
+    <%= form.label :author, "ผู้เขียน" %>
+    <%= form.text_field :author, required: true %>
+  </div>
+
+  <div class="admin-field-row">
+    <div class="admin-field">
+      <%= form.label :category_id, "หมวดหมู่" %>
+      <%= form.collection_select :category_id, Category.order(:name), :id, :name,
+          include_blank: "ยังไม่ระบุหมวดหมู่" %>
+    </div>
+    <div class="admin-field">
+      <%= form.label :price, "ราคา (บาท)" %>
+      <%= form.number_field :price, required: true, min: 0, max: 99_999_999.99, step: 0.01 %>
+    </div>
+  </div>
+
+  <% markets = Market.order(:name).to_a %>
+  <fieldset class="admin-market-field">
+    <legend>ช่องทางขาย (Market)</legend>
+
+    <% if markets.any? %>
+      <div class="admin-market-options">
+        <%= form.collection_checkboxes :market_ids, markets, :id, :name do |choice| %>
+          <%= choice.label { choice.checkbox + tag.span(choice.text) } %>
+        <% end %>
+      </div>
+    <% else %>
+      <p>ยังไม่มี Market ให้เลือก</p>
+    <% end %>
+  </fieldset>
+
+  <div class="admin-field">
+    <%= form.label :description, "คำอธิบาย" %>
+    <%= form.text_area :description, rows: 4 %>
+  </div>
+
+  <div class="admin-book-actions">
+    <%= form.submit "บันทึก", class: "admin-button admin-button-primary" %>
+    <%= link_to "ยกเลิก", admin_path, class: "admin-button" %>
+  </div>
+<% end %>

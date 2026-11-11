@@ -1,0 +1,21 @@
+info:
+  name: "failed_open_admin"
+  type: http
+  seq: 11
+
+http:
+  method: GET
+  url: "{{base_url}}/admin"
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test("Regular user cannot open Admin", () => {
+          expect(res.getStatus()).to.equal(403);
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 10000
+  followRedirects: false

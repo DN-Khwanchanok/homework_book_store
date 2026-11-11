@@ -1,0 +1,35 @@
+info:
+  name: failed_create_book_invalid_price
+  type: http
+  seq: 8
+
+http:
+  method: POST
+  url: "{{base_url}}/admin/books"
+  headers:
+    - name: X-CSRF-Token
+      value: "{{csrf_token}}"
+  body:
+    type: form-urlencoded
+    data:
+      - name: book[title]
+        value: A Brief History of Time
+      - name: book[author]
+        value: Stephen Hawking
+      - name: book[price]
+        value: "-1"
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test("Book - reject a negative price", () => {
+          expect(res.getStatus()).to.equal(422);
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 10000
+  followRedirects: false
+  maxRedirects: 5
+  forwardAuthorizationHeader: true

@@ -1,0 +1,22 @@
+info:
+  name: "failed_list_users"
+  type: http
+  seq: 10
+
+http:
+  method: GET
+  url: "{{base_url}}/api/users"
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test("User list is restricted to Admin", () => {
+          expect(res.getStatus()).to.equal(403);
+          expect(res.getBody().error).to.equal("Admin access required");
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 10000
+  followRedirects: false

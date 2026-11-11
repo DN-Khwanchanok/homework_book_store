@@ -1,0 +1,15 @@
+name: Local
+variables:
+  - name: base_url
+    value: http://127.0.0.1:3000
+    description: ""
+  - name: regular_email
+    value: test@test.com
+    description: ""
+  - name: admin_email
+    value: admin@example.com
+    description: ""
+  - secret: true
+    name: regular_password
+  - secret: true
+    name: admin_password

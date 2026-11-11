@@ -1,0 +1,52 @@
+info:
+  name: "Create user"
+  type: http
+  seq: 14
+
+http:
+  method: POST
+  url: "{{base_url}}/admin/users"
+  headers:
+    - name: X-CSRF-Token
+      value: "{{csrf_token}}"
+  body:
+    type: form-urlencoded
+    data:
+      - name: "user[email_address]"
+        value: "{{admin_test_user_email}}"
+      - name: "user[password]"
+        value: "{{admin_test_user_password}}"
+      - name: "user[password_confirmation]"
+        value: "{{admin_test_user_password}}"
+
+runtime:
+  scripts:
+    - type: before-request
+      code: |-
+        const { v4 } = require("uuid");
+        bru.setVar("admin_test_user_email", "bruno-test-reader-" + v4().slice(0, 8) + "@example.invalid");
+        bru.setVar("admin_test_user_password", v4());
+    - type: tests
+      code: |-
+        test("User - create test account", () => {
+          expect(res.getStatus()).to.equal(303);
+        });
+
+        test("The user account is saved", async () => {
+          expect(res.getStatus()).to.equal(303);
+          const session = bru.cookies.get("session_id");
+          expect(session, "Sign in as an admin first").to.be.a("string").and.not.be.empty;
+          const lookup = await bru.sendRequest({
+            url: bru.interpolate("{{base_url}}/api/users"),
+            headers: { Cookie: "session_id=" + session },
+            maxRedirects: 0,
+            timeout: 10000
+          });
+          expect(lookup.status).to.equal(200);
+          expect(lookup.data.some((entry) => entry.email_address === bru.getVar("admin_test_user_email"))).to.equal(true);
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 10000
+  followRedirects: false

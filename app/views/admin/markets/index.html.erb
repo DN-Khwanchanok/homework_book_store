@@ -1,0 +1,34 @@
+<% content_for :title, "จัดการ Market | Book Store" %>
+
+<%= render "admin/navigation" %>
+
+<main class="books-page admin-page">
+  <header class="admin-header">
+    <h1>จัดการ Market</h1>
+    <%= link_to "เพิ่ม Market", new_admin_market_path, class: "admin-button admin-button-primary" %>
+  </header>
+
+  <% if notice.present? %>
+    <p class="admin-notice" role="status"><%= notice %></p>
+  <% end %>
+
+  <% if @markets.empty? %>
+    <p>ยังไม่มี Market</p>
+  <% else %>
+    <ul class="admin-book-list">
+      <% @markets.each do |market| %>
+        <li class="admin-book-row">
+          <h2><%= market.name %></h2>
+          <div class="admin-book-actions">
+            <%= link_to "แก้ไข", edit_admin_market_path(market), class: "admin-button",
+                aria: { label: "แก้ไข #{market.name}" } %>
+            <%= button_to "ลบ", admin_market_path(market), method: :delete,
+                class: "admin-button admin-button-delete",
+                aria: { label: "ลบ #{market.name}" },
+                form: { data: { turbo_confirm: "ลบ #{market.name} หรือไม่?" } } %>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+</main>

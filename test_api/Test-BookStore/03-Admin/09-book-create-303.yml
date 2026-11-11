@@ -1,0 +1,59 @@
+info:
+  name: "Create book"
+  type: http
+  seq: 9
+
+http:
+  method: POST
+  url: "{{base_url}}/admin/books"
+  headers:
+    - name: X-CSRF-Token
+      value: "{{csrf_token}}"
+  body:
+    type: form-urlencoded
+    data:
+      - name: book[title]
+        value: "{{admin_test_book_title}}"
+      - name: book[author]
+        value: Stephen Hawking
+      - name: book[price]
+        value: "120"
+      - name: book[category_id]
+        value: "{{admin_test_category_id}}"
+      - name: book[market_ids][]
+        value: "{{admin_test_market_id}}"
+
+runtime:
+  scripts:
+    - type: before-request
+      code: bru.setVar("admin_test_book_title", "A Brief History of Time [Test " + require("uuid").v4().slice(0, 8) + "]");
+    - type: tests
+      code: |-
+        test("Book - create with category and market", () => {
+          expect(res.getStatus()).to.equal(303);
+        });
+
+        test("The book is saved", async () => {
+          expect(res.getStatus()).to.equal(303);
+          const session = bru.cookies.get("session_id");
+          expect(session, "Sign in as an admin first").to.be.a("string").and.not.be.empty;
+          const lookup = await bru.sendRequest({
+            url: bru.interpolate("{{base_url}}/api/books"),
+            headers: { Cookie: "session_id=" + session },
+            maxRedirects: 0,
+            timeout: 10000
+          });
+          expect(lookup.status).to.equal(200);
+          const record = lookup.data.find((entry) => entry.title === bru.getVar("admin_test_book_title"));
+          expect(record, "Find the book created by this run").to.exist;
+          expect(record.category).to.equal(bru.getVar("admin_test_category_name") + " (แก้ไข)");
+          expect(record.markets).to.include(bru.getVar("admin_test_market_name") + " (แก้ไข)");
+          bru.setVar("admin_test_book_id", String(record.id));
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 10000
+  followRedirects: false
+  maxRedirects: 5
+  forwardAuthorizationHeader: true

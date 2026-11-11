@@ -1,0 +1,32 @@
+info:
+  name: "Sign in as a regular user"
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{base_url}}/session"
+  body:
+    type: form-urlencoded
+    data:
+      - name: authenticity_token
+        value: "{{csrf_token}}"
+      - name: email_address
+        value: "{{regular_email}}"
+      - name: password
+        value: "{{regular_password}}"
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test("Rails creates a regular session", () => {
+          expect(res.getStatus()).to.equal(302);
+          const cookies = [].concat(res.getHeader("set-cookie") || []);
+          expect(cookies.some((cookie) => /^session_id=/.test(cookie))).to.equal(true, "Check the account email and password");
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 10000
+  followRedirects: false

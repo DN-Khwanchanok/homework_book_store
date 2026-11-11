@@ -1,0 +1,24 @@
+info:
+  name: "Get market details"
+  type: http
+  seq: 9
+
+http:
+  method: GET
+  url: "{{base_url}}/api/markets/{{markets_id}}"
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test("Returns the selected record", () => {
+          expect(res.getStatus()).to.equal(200);
+          const body = res.getBody();
+          expect(String(body.id)).to.equal(bru.getVar("markets_id"));
+          expect(Object.keys(body).sort()).to.deep.equal(["id","name"]);
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 10000
+  followRedirects: false

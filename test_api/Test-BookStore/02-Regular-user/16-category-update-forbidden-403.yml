@@ -1,0 +1,29 @@
+info:
+  name: "failed_update_category"
+  type: http
+  seq: 16
+
+http:
+  method: PATCH
+  url: "{{base_url}}/admin/categories/0"
+  headers:
+    - name: X-CSRF-Token
+      value: "{{csrf_token}}"
+  body:
+    type: form-urlencoded
+    data:
+      - name: "category[name]"
+        value: ""
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test("Regular user is denied: Update category", () => {
+          expect(res.getStatus()).to.equal(403);
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 10000
+  followRedirects: false

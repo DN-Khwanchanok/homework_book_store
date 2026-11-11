@@ -1,0 +1,24 @@
+info:
+  name: "failed_delete_category"
+  type: http
+  seq: 17
+
+http:
+  method: DELETE
+  url: "{{base_url}}/admin/categories/0"
+  headers:
+    - name: X-CSRF-Token
+      value: "{{csrf_token}}"
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test("Regular user is denied: Delete category", () => {
+          expect(res.getStatus()).to.equal(403);
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 10000
+  followRedirects: false

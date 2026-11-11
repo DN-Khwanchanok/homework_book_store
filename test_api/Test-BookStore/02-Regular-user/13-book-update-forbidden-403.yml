@@ -1,0 +1,29 @@
+info:
+  name: "failed_update_book"
+  type: http
+  seq: 13
+
+http:
+  method: PATCH
+  url: "{{base_url}}/admin/books/0"
+  headers:
+    - name: X-CSRF-Token
+      value: "{{csrf_token}}"
+  body:
+    type: form-urlencoded
+    data:
+      - name: "book[price]"
+        value: "-1"
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test("Regular user is denied: Update book", () => {
+          expect(res.getStatus()).to.equal(403);
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 10000
+  followRedirects: false

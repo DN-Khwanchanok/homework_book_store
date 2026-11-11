@@ -1,0 +1,25 @@
+<% content_for :title, "Sign in | Book Store" %>
+
+<div class="login-page">
+  <h1>Book Store</h1>
+  <h2>Sign in</h2>
+
+  <%= tag.p(flash[:alert], class: "login-error", role: "alert") if flash[:alert] %>
+  <%= tag.p(flash[:notice], class: "login-notice", role: "status") if flash[:notice] %>
+
+  <%= form_with url: session_path do |form| %>
+    <div class="login-field">
+      <%= form.label :email_address, "Email address" %>
+      <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", value: params[:email_address] %>
+    </div>
+
+    <div class="login-field">
+      <%= form.label :password, "Password" %>
+      <%= form.password_field :password, required: true, autocomplete: "current-password", maxlength: 72 %>
+    </div>
+
+    <%= form.submit "Sign in", class: "login-button" %>
+  <% end %>
+
+  <p><%= link_to "Forgot password?", new_password_path %></p>
+</div>

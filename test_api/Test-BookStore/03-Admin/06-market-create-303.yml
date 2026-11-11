@@ -1,0 +1,49 @@
+info:
+  name: Create market
+  type: http
+  seq: 6
+
+http:
+  method: POST
+  url: "{{base_url}}/admin/markets"
+  headers:
+    - name: X-CSRF-Token
+      value: "{{csrf_token}}"
+  body:
+    type: form-urlencoded
+    data:
+      - name: market[name]
+        value: "{{admin_test_market_name}}"
+
+runtime:
+  scripts:
+    - type: before-request
+      code: bru.setVar("admin_test_market_name", "ร้านหนังสือออนไลน์ [Test " + require("uuid").v4().slice(0, 8) + "]");
+    - type: tests
+      code: |-
+        test("Market - create", () => {
+          expect(res.getStatus()).to.equal(303);
+        });
+
+        test("The market is saved", async () => {
+          expect(res.getStatus()).to.equal(303);
+          const session = bru.cookies.get("session_id");
+          expect(session, "Sign in as an admin first").to.be.a("string").and.not.be.empty;
+          const lookup = await bru.sendRequest({
+            url: bru.interpolate("{{base_url}}/api/markets"),
+            headers: { Cookie: "session_id=" + session },
+            maxRedirects: 0,
+            timeout: 10000
+          });
+          expect(lookup.status).to.equal(200);
+          const record = lookup.data.find((entry) => entry.name === bru.getVar("admin_test_market_name"));
+          expect(record, "Find the market created by this run").to.exist;
+          bru.setVar("admin_test_market_id", String(record.id));
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 10000
+  followRedirects: false
+  maxRedirects: 5
+  forwardAuthorizationHeader: true
