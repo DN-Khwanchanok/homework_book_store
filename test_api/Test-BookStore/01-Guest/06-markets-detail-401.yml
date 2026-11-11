@@ -1,0 +1,22 @@
+info:
+  name: "failed_get_market"
+  type: http
+  seq: 6
+
+http:
+  method: GET
+  url: "{{base_url}}/api/markets/1"
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test("Guests cannot view market details", () => {
+          expect(res.getStatus()).to.equal(401);
+          expect(res.getBody().error).to.equal("Sign in required");
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 10000
+  followRedirects: false
