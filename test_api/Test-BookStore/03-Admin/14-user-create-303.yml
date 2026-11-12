@@ -18,6 +18,8 @@ http:
         value: "{{admin_test_user_password}}"
       - name: "user[password_confirmation]"
         value: "{{admin_test_user_password}}"
+      - name: "user[role]"
+        value: "user"
 
 runtime:
   scripts:
@@ -28,7 +30,7 @@ runtime:
         bru.setVar("admin_test_user_password", v4());
     - type: tests
       code: |-
-        test("User - create test account", () => {
+        test("Admin can create a regular user", () => {
           expect(res.getStatus()).to.equal(303);
         });
 

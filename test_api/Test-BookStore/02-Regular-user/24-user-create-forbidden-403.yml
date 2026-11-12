@@ -14,12 +14,14 @@ http:
     data:
       - name: "user[email_address]"
         value: "invalid-email"
+      - name: "user[role]"
+        value: "admin"
 
 runtime:
   scripts:
     - type: tests
       code: |-
-        test("Regular user is denied: Create user", () => {
+        test("Regular user cannot create an Admin", () => {
           expect(res.getStatus()).to.equal(403);
         });
 

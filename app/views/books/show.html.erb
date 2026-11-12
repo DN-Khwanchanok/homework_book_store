@@ -1,7 +1,7 @@
 <% content_for :title, @book.title %>
 
 <main class="books-page book-detail">
-  <%= link_to "← Back to books",
+  <%= link_to "← Back to book store",
       books_path(category_id: params[:category_id], q: params[:q]), class: "book-back" %>
 
   <h1><%= @book.title %></h1>

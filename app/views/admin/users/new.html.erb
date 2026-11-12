@@ -22,6 +22,12 @@
     <%= render "password_field", form: form, field: :password, label: "รหัสผ่าน" %>
     <%= render "password_field", form: form, field: :password_confirmation, label: "ยืนยันรหัสผ่าน" %>
 
+    <div class="admin-field">
+      <%= form.label :role, "Role" %>
+      <%= form.select :role, [["User", "user"], ["Admin", "admin"]],
+            { selected: @user.admin? ? "admin" : "user" } %>
+    </div>
+
     <div class="admin-book-actions">
       <%= form.submit "สร้างผู้ใช้", class: "admin-button admin-button-primary" %>
       <%= link_to "ยกเลิก", admin_path, class: "admin-button" %>
