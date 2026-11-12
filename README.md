@@ -61,7 +61,7 @@ bin/rails db:prepare
 ```bash
 read -rsp "Admin password: " admin_password
 printf '\n'
-ADMIN_EMAIL=admin@example.com ADMIN_PASSWORD="$admin_password" bin/rails db:seed
+ADMIN_EMAIL=admin@test.com ADMIN_PASSWORD="$admin_password" bin/rails db:seed
 unset admin_password
 ```
 
@@ -80,6 +80,15 @@ Bruno Collection อยู่ที่ [test_api/Test-BookStore](test_api/Test-B
 | [01 Guest](test_api/Test-BookStore/01-Guest) | 9 | เรียก API ทั้ง 8 endpoints โดยยังไม่ล็อกอินต้องได้ `401` และเปิด `/admin` ต้องถูกส่งไปหน้า Sign in ด้วย `302` |
 | [02 Regular user](test_api/Test-BookStore/02-Regular-user) | 25 | อ่านข้อมูลร้านได้ ทดสอบ ID ที่ไม่มี และตรวจว่าคำสั่งที่สงวนให้ Admin ถูกปฏิเสธด้วย `403` |
 | [03 Admin](test_api/Test-BookStore/03-Admin) | 17 | เข้า `/admin` ได้ จัดการหนังสือ หมวดหมู่ และตลาด ดูข้อมูลผู้ใช้ สร้างบัญชีทั่วไป และลองส่งราคาหนังสือติดลบให้ได้ `422` |
+
+อีเมลจำลองที่ใช้ทดสอบใน Environment **Local**
+
+| Role | อีเมลตัวอย่าง | วิธีตั้งรหัสผ่าน |
+| --- | --- | --- |
+| Regular User | `test@test.com` | ตั้งตอนสร้างบัญชีในหน้า Admin |
+| Admin | `admin@test.com` | ตั้งตอนรัน seed |
+
+บัญชีตัวอย่างใช้สำหรับทดสอบในเครื่อง หลัง clone ให้สร้าง Admin ด้วย seed แล้วใช้หน้า Admin สร้าง Regular User และกำหนดรหัสผ่านของแต่ละบัญชีในเครื่องของคุณ จากนั้นกรอกอีเมลและรหัสผ่านที่ใช้จริงใน Environment **Local** ของ Bruno
 
 1. เตรียมบัญชี Admin กับ User ทั่วไปอย่างละหนึ่งบัญชี และเตรียมหนังสือ หมวดหมู่ และตลาดอย่างละหนึ่งรายการเพื่อทดสอบ API รายละเอียด
 2. เปิด Bruno แล้วใช้ **Open Collection** เลือกโฟลเดอร์ `test_api/Test-BookStore`
