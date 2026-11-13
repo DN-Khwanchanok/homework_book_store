@@ -7,7 +7,7 @@ variables:
     value: test@test.com
     description: ""
   - name: admin_email
-    value: admin@example.com
+    value: admin@test.com
     description: ""
   - secret: true
     name: regular_password
